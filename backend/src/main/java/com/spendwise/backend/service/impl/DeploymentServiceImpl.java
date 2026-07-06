@@ -7,6 +7,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.spendwise.backend.entity.Deployment;
+import com.spendwise.backend.repository.BuildRepository;
 import com.spendwise.backend.repository.DeploymentRepository;
 import com.spendwise.backend.service.DeploymentService;
 
@@ -14,9 +15,12 @@ import com.spendwise.backend.service.DeploymentService;
 public class DeploymentServiceImpl implements DeploymentService {
 
     private final DeploymentRepository deploymentRepository;
+    private final BuildRepository buildRepository;
 
-    public DeploymentServiceImpl(DeploymentRepository deploymentRepository) {
+    public DeploymentServiceImpl(DeploymentRepository deploymentRepository,
+                                 BuildRepository buildRepository) {
         this.deploymentRepository = deploymentRepository;
+        this.buildRepository = buildRepository;
     }
 
     @Override
@@ -45,4 +49,5 @@ public class DeploymentServiceImpl implements DeploymentService {
     public void deleteDeployment(Long id) {
         deploymentRepository.deleteById(id);
     }
+
 }

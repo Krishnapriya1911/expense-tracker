@@ -1,7 +1,9 @@
 package com.spendwise.backend.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,20 @@ public class BuildServiceImpl implements BuildService {
     @Override
     public void deleteBuild(Long id) {
         buildRepository.deleteById(id);
+    }
+
+    @Override
+    public Build triggerBuild() {
+
+        Build build = Build.builder()
+                .buildNumber("BUILD-" + UUID.randomUUID().toString().substring(0, 8))
+                .status("SUCCESS")
+                .duration("20s")
+                .startedAt(LocalDateTime.now())
+                .finishedAt(LocalDateTime.now().plusSeconds(20))
+                .triggeredBy("admin")
+                .build();
+
+        return buildRepository.save(build);
     }
 }

@@ -15,5 +15,7 @@ public interface BuildService {
 
     long getTotalBuilds();
 
+    Build triggerBuild();
+    
     void deleteBuild(Long id);
 }
