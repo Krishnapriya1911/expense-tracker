@@ -1,11 +1,14 @@
 package com.spendwise.backend.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.spendwise.backend.entity.Build;
 import com.spendwise.backend.entity.Deployment;
 import com.spendwise.backend.repository.BuildRepository;
 import com.spendwise.backend.repository.DeploymentRepository;
@@ -50,4 +53,25 @@ public class DeploymentServiceImpl implements DeploymentService {
         deploymentRepository.deleteById(id);
     }
 
+    @Override
+    public Deployment triggerDeployment() {
+
+        Optional<Build> latestBuild = buildRepository.findAll()
+                .stream()
+                .max(Comparator.comparing(Build::getStartedAt));
+
+        if (latestBuild.isEmpty()) {
+            throw new RuntimeException("No build available for deployment.");
+        }
+
+        Deployment deployment = Deployment.builder()
+                .version("v1.0." + UUID.randomUUID().toString().substring(0, 4))
+                .environment("DEV")
+                .status("SUCCESS")
+                .deployedAt(LocalDateTime.now())
+                .build(latestBuild.get())
+                .build();
+
+        return deploymentRepository.save(deployment);
+    }
 }

@@ -16,4 +16,6 @@ public interface DeploymentService {
     Optional<Deployment> getLatestDeployment();
 
     void deleteDeployment(Long id);
+
+    Deployment triggerDeployment();
 }
