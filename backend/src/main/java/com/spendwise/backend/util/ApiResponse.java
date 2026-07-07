@@ -1,4 +1,4 @@
-package com.spendwise.backend.dto;
+package com.spendwise.backend.util;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResponse {
+public class ApiResponse<T> {
 
-    private String username;
-    private String role;
+    private boolean success;
+    private String message;
+    private T data;
 }
