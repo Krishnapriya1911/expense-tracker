@@ -1,0 +1,34 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: spendwise-mysql
+    restart: always
+
+    environment:
+      MYSQL_ROOT_PASSWORD: Venky@12k
+      MYSQL_DATABASE: spendwise
+
+    ports:
+      - "3307:3306"
+
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    image: spendwise-backend
+    container_name: spendwise-backend
+    restart: always
+
+    depends_on:
+      - mysql
+
+    ports:
+      - "8081:8081"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/spendwise
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: Venky@12k
+
+volumes:
+  mysql_data:
