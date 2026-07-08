@@ -9,12 +9,6 @@ pipeline {
 
     stages {
 
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build Backend') {
             steps {
                 dir('backend') {
@@ -57,14 +51,14 @@ pipeline {
 
         success {
             echo '==============================='
-            echo ' Build Successful!'
-            echo ' Docker Container Running!'
+            echo 'Build Successful!'
+            echo 'Docker Container Running!'
             echo '==============================='
         }
 
         failure {
             echo '==============================='
-            echo ' Build Failed!'
+            echo 'Build Failed!'
             echo '==============================='
         }
 
