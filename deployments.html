@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SpendWise — Deployments</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="app-shell">
+
+    <aside class="sidebar">
+        <div class="brand">
+            <div class="mark">S</div>
+            <h1>SpendWise</h1>
+        </div>
+        <nav>
+            <a href="dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg><span class="label-text">Dashboard</span></a>
+            <a href="builds.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 1 0-5.6 5.6l-6 6a1 1 0 0 0 1.4 1.4l6-6a4 4 0 0 0 5.6-5.6l-2.1 2.1-2-2z"/></svg><span class="label-text">Builds</span></a>
+            <a href="deployments.html" class="active"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg><span class="label-text">Deployments</span></a>
+            <a href="health.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg><span class="label-text">Health</span></a>
+        </nav>
+        <button id="logoutBtn" class="logout-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg><span class="label-text">Logout</span></button>
+    </aside>
+
+    <main class="main">
+        <header>
+            <h2>Deployment Status</h2>
+            <span id="userBadge" class="user-badge"></span>
+        </header>
+
+        <div id="deployError" class="alert error"></div>
+
+        <div class="panel">
+            <h3>Latest Deployment</h3>
+            <div class="detail-row"><span class="k">Status</span><span class="v" id="deployStatus">—</span></div>
+            <div class="detail-row"><span class="k">Environment</span><span class="v" id="deployEnvironment">—</span></div>
+            <div class="detail-row"><span class="k">Version</span><span class="v" id="deployVersion">—</span></div>
+            <div class="detail-row"><span class="k">Last Updated</span><span class="v" id="deployUpdated">—</span></div>
+        </div>
+
+        <br>
+        <button class="btn" id="triggerDeployBtn">Trigger Deployment</button>
+    </main>
+
+</div>
+
+<script src="js/auth.js"></script>
+<script src="js/deployment.js"></script>
+</body>
+</html>
