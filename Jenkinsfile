@@ -15,14 +15,14 @@ pipeline {
         stage('Checkout Source') {
             steps {
                 git branch: 'main',
-                    url: 'https://github.com/Krishnapriya1911/expense-tracker.git'
+                    url: 'https://github.com/Krishnapriya1911/mini-devops-automation-platform.git'
             }
         }
 
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    bat 'mvnw.cmd clean package -DskipTests'
+                    sh './mvnw clean package -DskipTests'
                 }
             }
         }
@@ -30,27 +30,27 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir('backend') {
-                    bat "docker build -t %IMAGE_NAME% ."
+                    sh "docker build -t ${IMAGE_NAME} ."
                 }
             }
         }
 
         stage('Stop Old Container') {
             steps {
-                bat """
-                docker stop %CONTAINER_NAME%
-                docker rm %CONTAINER_NAME%
+                sh """
+                docker stop ${CONTAINER_NAME} || true
+                docker rm ${CONTAINER_NAME} || true
                 """
             }
         }
 
         stage('Run Container') {
             steps {
-                bat """
-                docker run -d ^
-                --name %CONTAINER_NAME% ^
-                -p 8081:8081 ^
-                %IMAGE_NAME%
+                sh """
+                docker run -d \
+                --name ${CONTAINER_NAME} \
+                -p 8081:8081 \
+                ${IMAGE_NAME}
                 """
             }
         }
@@ -58,12 +58,12 @@ pipeline {
 
     post {
         success {
-            echo "BUILD SUCCESSFUL!"
+            echo 'BUILD SUCCESSFUL!'
             archiveArtifacts artifacts: 'backend/target/*.jar', fingerprint: true
         }
 
         failure {
-            echo "BUILD FAILED!"
+            echo 'BUILD FAILED!'
         }
     }
 }
