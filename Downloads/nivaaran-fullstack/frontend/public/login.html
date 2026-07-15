@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Login — NivAaran</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--forest:#0D2B1F;--green:#16A34A;--green2:#22C55E;--green-l:#DCFCE7;--gold:#D97706;--cream:#F7F9F7;--white:#fff;--ink:#111827;--mid:#374151;--muted:#6B7280;--border:#E5E7EB}
+body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;display:flex}
+.split{display:flex;min-height:100vh;width:100%}
+/* LEFT */
+.left{width:460px;flex-shrink:0;background:var(--forest);padding:44px;display:flex;flex-direction:column;justify-content:space-between;position:relative;overflow:hidden}
+.lb1{position:absolute;width:380px;height:380px;border-radius:50%;top:-100px;right:-140px;background:radial-gradient(circle,rgba(22,163,74,.12) 0%,transparent 70%)}
+.lb2{position:absolute;width:280px;height:280px;border-radius:50%;bottom:-70px;left:-70px;background:radial-gradient(circle,rgba(217,119,6,.10) 0%,transparent 70%)}
+.lb-dots{position:absolute;inset:0;opacity:.03;background-image:radial-gradient(circle at 2px 2px,white 1px,transparent 0);background-size:28px 28px}
+.l-logo{display:flex;align-items:center;gap:10px;position:relative}
+.l-logo-name{font-family:'Playfair Display',serif;font-size:21px;font-weight:700;color:#fff}
+.l-logo-name span{color:var(--green2)}
+.l-content{position:relative}
+.l-tagline{font-family:'Playfair Display',serif;font-size:36px;font-weight:900;color:#fff;line-height:1.15;letter-spacing:-.8px;margin-bottom:18px}
+.l-tagline em{color:var(--green2);font-style:italic}
+.l-sub{font-size:14px;color:rgba(255,255,255,.58);line-height:1.7;margin-bottom:30px}
+.stats-row{display:flex;gap:14px}
+.stat-box{background:rgba(255,255,255,.06);border-radius:11px;padding:12px 14px;border:1px solid rgba(255,255,255,.08)}
+.stat-num{font-family:'Playfair Display',serif;font-size:22px;font-weight:900;color:var(--green2);line-height:1}
+.stat-lbl{font-size:10px;color:rgba(255,255,255,.4);margin-top:2px}
+.l-footer{font-size:11px;color:rgba(255,255,255,.28);position:relative}
+/* RIGHT */
+.right{flex:1;display:flex;align-items:center;justify-content:center;padding:44px}
+.auth-card{width:100%;max-width:400px}
+.back-link{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin-bottom:22px;cursor:pointer;transition:color .2s;text-decoration:none}
+.back-link:hover{color:var(--forest)}
+.tabs{display:flex;gap:0;background:var(--border);border-radius:11px;padding:3px;margin-bottom:28px}
+.tab{flex:1;padding:9px;border-radius:8px;border:none;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:var(--muted)}
+.tab.active{background:#fff;color:var(--forest);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.auth-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:900;color:var(--forest);margin-bottom:5px}
+.auth-sub{font-size:13px;color:var(--muted);margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--mid);margin-bottom:5px}
+.form-input,.form-select{width:100%;padding:11px 13px;border:1.5px solid var(--border);border-radius:9px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--ink);background:#fff;outline:none;transition:border-color .2s,box-shadow .2s}
+.form-input:focus,.form-select:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(22,163,74,.10)}
+.input-row{display:grid;grid-template-columns:1fr 1fr;gap:11px}
+.form-footer{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.remember{display:flex;align-items:center;gap:7px;font-size:12px;color:var(--muted)}
+.remember input{accent-color:var(--green)}
+.forgot{font-size:12px;color:var(--green);font-weight:500;text-decoration:none}
+.forgot:hover{text-decoration:underline}
+.btn-submit{width:100%;padding:13px;border-radius:9px;border:none;background:var(--forest);color:#fff;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-submit:hover{background:#1a3d2b;transform:translateY(-1px);box-shadow:0 6px 20px rgba(13,43,31,.25)}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.divider{display:flex;align-items:center;gap:11px;margin:18px 0}
+.divider-line{flex:1;height:1px;background:var(--border)}
+.divider-text{font-size:11px;color:var(--muted)}
+.demo-btns{display:flex;flex-direction:column;gap:7px}
+.demo-btn{padding:10px 13px;border-radius:9px;border:1.5px solid var(--border);background:#fff;font-family:'DM Sans',sans-serif;font-size:12px;cursor:pointer;transition:all .2s;color:var(--mid);display:flex;align-items:center;gap:9px;text-align:left}
+.demo-btn:hover{border-color:var(--green);color:var(--forest);background:var(--green-l)}
+.demo-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.demo-label{font-weight:600;font-size:12px;color:var(--forest)}
+.demo-role{font-size:10px;color:var(--muted)}
+.alert{padding:9px 13px;border-radius:9px;font-size:12px;margin-bottom:14px;display:flex;align-items:center;gap:7px}
+.alert-error{background:#FEE2E2;color:#991B1B;border:1px solid #FECACA}
+.alert-success{background:var(--green-l);color:#166534;border:1px solid #BBF7D0}
+.hidden{display:none}
+.spinner{display:inline-block;width:14px;height:14px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:768px){.left{display:none}.right{padding:22px}}
+</style>
+</head>
+<body>
+<div class="split">
+  <!-- LEFT -->
+  <div class="left">
+    <div class="lb1"></div><div class="lb2"></div><div class="lb-dots"></div>
+    <div class="l-logo">
+      <svg width="34" height="34" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="22" fill="rgba(22,163,74,.15)"/><path d="M24 8L36 13.5L36 26C36 32 30 38.5 24 41C18 38.5 12 32 12 26L12 13.5Z" fill="none" stroke="#22C55E" stroke-width="1.5"/><path d="M18 30L18 18L26 30L26 18" stroke="white" stroke-width="2.5" stroke-linecap="round" fill="none"/><circle cx="30" cy="20" r="1.8" fill="#D97706"/><circle cx="32" cy="24" r="1.8" fill="#22C55E"/><circle cx="30" cy="28" r="1.8" fill="#D97706"/></svg>
+      <span class="l-logo-name">Niv<span>Aaran</span></span>
+    </div>
+    <div class="l-content">
+      <div class="l-tagline">Complaint<br/><em>Intelligence</em><br/>Platform</div>
+      <p class="l-sub">Sequences root causes, predicts complaints 48 hours before filing, shields banks from RBI penalties.</p>
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-num">1440×</div><div class="stat-lbl">Faster resolution</div></div>
+        <div class="stat-box"><div class="stat-num">73%</div><div class="stat-lbl">Prevented</div></div>
+        <div class="stat-box"><div class="stat-num">8,500+</div><div class="stat-lbl">Branches</div></div>
+      </div>
+    </div>
+    <div class="l-footer">निवारण = Prevention + Resolution · iDEA 2.0 · PS5 · Union Bank of India</div>
+  </div>
+
+  <!-- RIGHT -->
+  <div class="right">
+    <div class="auth-card">
+      <a href="/" class="back-link">← Back to home</a>
+      <div class="tabs">
+        <button class="tab active" onclick="switchTab('login',this)">Sign In</button>
+        <button class="tab" onclick="switchTab('register',this)">Register</button>
+      </div>
+
+      <!-- LOGIN -->
+      <div id="loginForm">
+        <div class="auth-title">Welcome back</div>
+        <div class="auth-sub">Sign in to your NivAaran account</div>
+        <div id="loginAlert" class="alert hidden"></div>
+        <div class="form-group"><label class="form-label">Employee ID</label><input class="form-input" id="empId" type="text" placeholder="e.g. DEMO-AGENT"/></div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="password" type="password" placeholder="Enter your password"/></div>
+        <div class="form-footer"><label class="remember"><input type="checkbox" checked/>Remember me</label><a href="#" class="forgot">Forgot password?</a></div>
+        <button class="btn-submit" id="loginBtn" onclick="handleLogin()">Sign In to Dashboard →</button>
+        <div class="divider"><div class="divider-line"></div><span class="divider-text">or use a demo account</span><div class="divider-line"></div></div>
+        <div class="demo-btns">
+          <button class="demo-btn" onclick="demoLogin('DEMO-AGENT')"><div class="demo-icon" style="background:#DCFCE7">👤</div><div><div class="demo-label">Agent Demo</div><div class="demo-role">DEMO-AGENT · demo123</div></div></button>
+          <button class="demo-btn" onclick="demoLogin('DEMO-MGR')"><div class="demo-icon" style="background:#FEF3C7">👔</div><div><div class="demo-label">Manager Demo</div><div class="demo-role">DEMO-MGR · demo123</div></div></button>
+          <button class="demo-btn" onclick="demoLogin('DEMO-CO')"><div class="demo-icon" style="background:#EFF6FF">⚖️</div><div><div class="demo-label">Compliance Officer Demo</div><div class="demo-role">DEMO-CO · demo123</div></div></button>
+        </div>
+      </div>
+
+      <!-- REGISTER -->
+      <div id="registerForm" class="hidden">
+        <div class="auth-title">Create Account</div>
+        <div class="auth-sub">Register your NivAaran access</div>
+        <div id="regAlert" class="alert hidden"></div>
+        <div class="input-row">
+          <div class="form-group"><label class="form-label">First Name</label><input class="form-input" id="rFirst" placeholder="Priya"/></div>
+          <div class="form-group"><label class="form-label">Last Name</label><input class="form-input" id="rLast" placeholder="Kumar"/></div>
+        </div>
+        <div class="form-group"><label class="form-label">Employee ID</label><input class="form-input" id="rEmp" placeholder="UBI-2024-001"/></div>
+        <div class="form-group"><label class="form-label">Bank</label><select class="form-select" id="rBank"><option value="">Select bank</option><option>Union Bank of India</option><option>State Bank of India</option><option>Bank of Baroda</option><option>Punjab National Bank</option></select></div>
+        <div class="form-group"><label class="form-label">Role</label><select class="form-select" id="rRole"><option value="">Select role</option><option value="agent">Complaint Agent</option><option value="manager">Branch Manager</option><option value="compliance">Compliance Officer</option></select></div>
+        <div class="form-group"><label class="form-label">Password</label><input class="form-input" id="rPwd" type="password" placeholder="Min 6 characters"/></div>
+        <button class="btn-submit" id="regBtn" onclick="handleRegister()">Create Account →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="/js/api.js"></script>
+<script>
+// If already logged in, go to dashboard
+if (API.isLoggedIn()) window.location.href = '/dashboard.html';
+
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('loginForm').classList.toggle('hidden', tab!=='login');
+  document.getElementById('registerForm').classList.toggle('hidden', tab!=='register');
+}
+
+function showAlert(id, msg, type='error') {
+  const el = document.getElementById(id);
+  el.textContent = (type==='error'?'⚠ ':'✓ ') + msg;
+  el.className = `alert alert-${type}`;
+  el.classList.remove('hidden');
+}
+
+function setLoading(btnId, loading, text) {
+  const btn = document.getElementById(btnId);
+  btn.disabled = loading;
+  btn.innerHTML = loading ? `<div class="spinner"></div> ${text}` : text;
+}
+
+async function handleLogin() {
+  const emp = document.getElementById('empId').value.trim();
+  const pwd = document.getElementById('password').value.trim();
+  if (!emp) return showAlert('loginAlert','Please enter your Employee ID');
+  if (!pwd) return showAlert('loginAlert','Please enter your password');
+  document.getElementById('loginAlert').classList.add('hidden');
+  setLoading('loginBtn', true, 'Signing in…');
+  try {
+    const res = await API.login(emp, pwd);
+    if (res.success) {
+      API.setAuth(res.token, res.user);
+      window.location.href = '/dashboard.html';
+    } else {
+      setLoading('loginBtn', false, 'Sign In to Dashboard →');
+      showAlert('loginAlert', res.message || 'Login failed');
+    }
+  } catch {
+    setLoading('loginBtn', false, 'Sign In to Dashboard →');
+    showAlert('loginAlert', 'Server error — please try again');
+  }
+}
+
+function demoLogin(empId) {
+  document.getElementById('empId').value = empId;
+  document.getElementById('password').value = 'demo123';
+  setTimeout(handleLogin, 200);
+}
+
+async function handleRegister() {
+  const d = {
+    firstName: document.getElementById('rFirst').value.trim(),
+    lastName:  document.getElementById('rLast').value.trim(),
+    employeeId:document.getElementById('rEmp').value.trim(),
+    bank:      document.getElementById('rBank').value,
+    role:      document.getElementById('rRole').value,
+    password:  document.getElementById('rPwd').value,
+  };
+  if (!d.firstName||!d.lastName) return showAlert('regAlert','Please enter your full name');
+  if (!d.employeeId)             return showAlert('regAlert','Employee ID is required');
+  if (!d.bank)                   return showAlert('regAlert','Please select your bank');
+  if (!d.role)                   return showAlert('regAlert','Please select your role');
+  if (d.password.length<6)       return showAlert('regAlert','Password must be at least 6 characters');
+  setLoading('regBtn', true, 'Creating account…');
+  try {
+    const res = await API.register(d);
+    if (res.success) {
+      API.setAuth(res.token, res.user);
+      window.location.href = '/dashboard.html';
+    } else {
+      setLoading('regBtn', false, 'Create Account →');
+      showAlert('regAlert', res.message || 'Registration failed');
+    }
+  } catch {
+    setLoading('regBtn', false, 'Create Account →');
+    showAlert('regAlert', 'Server error — please try again');
+  }
+}
+
+document.addEventListener('keydown', e => { if (e.key==='Enter') { if (!document.getElementById('loginForm').classList.contains('hidden')) handleLogin(); else handleRegister(); } });
+</script>
+</body>
+</html>
