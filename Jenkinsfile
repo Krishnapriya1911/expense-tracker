@@ -6,7 +6,6 @@ pipeline {
     }
 
     environment {
-        APP_NAME = "spendwise-backend"
         IMAGE_NAME = "spendwise-backend"
         CONTAINER_NAME = "spendwise-backend"
     }
@@ -15,7 +14,7 @@ pipeline {
 
         stage('Checkout Source') {
             steps {
-                git branch: 'feature/backend',
+                git branch: 'main',
                     url: 'https://github.com/Krishnapriya1911/expense-tracker.git'
             }
         }
@@ -23,8 +22,7 @@ pipeline {
         stage('Build Backend') {
             steps {
                 dir('backend') {
-                    sh 'chmod +x mvnw || true'
-                    sh './mvnw clean package -DskipTests'
+                    bat 'mvnw.cmd clean package -DskipTests'
                 }
             }
         }
@@ -32,47 +30,40 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 dir('backend') {
-                    sh "docker build -t ${IMAGE_NAME}:latest ."
+                    bat "docker build -t %IMAGE_NAME% ."
                 }
             }
         }
 
         stage('Stop Old Container') {
             steps {
-                sh """
-                docker stop ${CONTAINER_NAME} || true
-                docker rm ${CONTAINER_NAME} || true
+                bat """
+                docker stop %CONTAINER_NAME%
+                docker rm %CONTAINER_NAME%
                 """
             }
         }
 
         stage('Run Container') {
             steps {
-                sh """
-                docker run -d \
-                --name ${CONTAINER_NAME} \
-                -p 8081:8081 \
-                ${IMAGE_NAME}:latest
+                bat """
+                docker run -d ^
+                --name %CONTAINER_NAME% ^
+                -p 8081:8081 ^
+                %IMAGE_NAME%
                 """
             }
         }
     }
 
     post {
-
         success {
-            echo "==============================="
             echo "BUILD SUCCESSFUL!"
-            echo "Docker Container Running!"
-            echo "==============================="
-
             archiveArtifacts artifacts: 'backend/target/*.jar', fingerprint: true
         }
 
         failure {
-            echo "==============================="
             echo "BUILD FAILED!"
-            echo "==============================="
         }
     }
 }
