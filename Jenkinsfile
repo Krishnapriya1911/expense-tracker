@@ -8,6 +8,7 @@ pipeline {
     environment {
         IMAGE_NAME = "spendwise-backend"
         CONTAINER_NAME = "spendwise-backend"
+        NETWORK_NAME = "spendwisebackend_default"
     }
 
     stages {
@@ -49,6 +50,7 @@ pipeline {
                 sh """
                 docker run -d \
                 --name ${CONTAINER_NAME} \
+                --network ${NETWORK_NAME} \
                 -p 8081:8081 \
                 ${IMAGE_NAME}
                 """
